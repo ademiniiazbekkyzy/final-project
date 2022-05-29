@@ -26,7 +26,7 @@ class MarkApp(tk.Tk):
 class MainWindow(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="This is the start page").pack(side="top", fill="x", pady=10)
+        tk.Label(self, text="Main Window").pack(side="top", fill="x", pady=10)
         self.uni_logo = Image.open("images/logo1.jpeg")
         self.uni_logo = ImageTk.PhotoImage(image=self.uni_logo)
         tk.Label(self, image=self.uni_logo,).pack()
@@ -63,17 +63,17 @@ class ImageProcessingPage(tk.Frame):
         self.canvas = Canvas(self, width=650, height=350)
         self.canvas.pack()
 
-        tk.Button(self, text="Resize", command=self.resize, ).pack()
         tk.Button(self, text="Black and White Filter", command=self.black_and_white_filter, ).pack()
+        tk.Button(self, text="Resize", command=self.resize, ).pack()
 
     def resize(self):
-        max_size = (590, 350)
+        max_size = (600, 400)
         self.path = filedialog.askopenfilename()
 
         if self.path:
             self.image = Image.open(self.path)
             self.image.thumbnail(max_size)
-            self.image = self.image.resize((100, 100), Image.ANTIALIAS)
+            self.image = self.image.resize((350, 350), Image.ANTIALIAS)
             import warnings
             warnings.filterwarnings('error')
 
@@ -85,7 +85,7 @@ class ImageProcessingPage(tk.Frame):
             self.canvas.create_image(0, 1, image=self.image, anchor="nw")
 
     def black_and_white_filter(self):
-        max_size = (590, 350)
+        max_size = (600, 400)
         self.path = filedialog.askopenfilename()
 
         if self.path:
@@ -98,4 +98,5 @@ class ImageProcessingPage(tk.Frame):
 
 if __name__ == "__main__":
     app = MarkApp()
+    app.geometry("600x500")
     app.mainloop()

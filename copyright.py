@@ -18,6 +18,11 @@ class CopyRightWindow(tk.Frame):
         copyright_symbol = "\u00A9"
 
         return f"""
-        {copyright_symbol} 
+{copyright_symbol}2022 ademi
+    
+This work is the intellectual property of the author. 
+    
+Permission is granted for this material to be shared for non-commercial, 
+educational purposes, provided that this copyright statement appears on the reproduced 
+materials and notice is given hat the copying is by permission of the author. 
         """
-
