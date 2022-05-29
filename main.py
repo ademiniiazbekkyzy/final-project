@@ -5,7 +5,8 @@ except ImportError:
 
 import tkinter as tk
 from PIL import ImageTk, Image
-from tkinter import Text, filedialog
+from tkinter import filedialog
+import copyright
 
 
 class MarkApp(tk.Tk):
@@ -34,10 +35,14 @@ class MainWindow(tk.Frame):
             text="Image Processing",
             command=lambda: master.switch_frame(ImageProcessingPage),
         ).pack()
-        tk.Button(self, text="Copyright", command=lambda: master.switch_frame(CopyRightWindow), ).pack()
+        tk.Button(self, text="Copyright", command=lambda: master.switch_frame(copyright.CopyRightWindow), ).pack()
 
 
 class ImageProcessingPage(tk.Frame):
+    """
+    Changes the size of the image
+    Applies black & white filter to the image
+    """
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         self.path = None
@@ -59,6 +64,7 @@ class ImageProcessingPage(tk.Frame):
         self.canvas.pack()
 
         tk.Button(self, text="Resize", command=self.resize, ).pack()
+        tk.Button(self, text="Black and White Filter", command=self.black_and_white_filter, ).pack()
 
     def resize(self):
         max_size = (590, 350)
@@ -78,24 +84,16 @@ class ImageProcessingPage(tk.Frame):
             self.image = ImageTk.PhotoImage(self.image)
             self.canvas.create_image(0, 1, image=self.image, anchor="nw")
 
+    def black_and_white_filter(self):
+        max_size = (590, 350)
+        self.path = filedialog.askopenfilename()
 
-class CopyRightWindow(tk.Frame):
-    def __init__(self, master):
-        tk.Frame.__init__(self, master)
-        tk.Label(self, text="Copyright Page").pack(
-            side="top", fill="x", pady=10)
-        text_box = Text(self, height=12, width=45)
-        text_box.pack(expand=True)
-        text_box.insert("end", self.copyright)
-        tk.Button(self, text="Return to Home page", command=lambda: master.switch_frame(MainWindow),).pack()
-
-    @property
-    def copyright(self):
-        copyright_symbol = "\u00A9"
-
-        return f"""
-        {copyright_symbol} 
-        """
+        if self.path:
+            self.image = Image.open(self.path)
+            self.image.thumbnail(max_size)
+            self.image = self.image.convert(mode='L')
+            self.image = ImageTk.PhotoImage(self.image)
+            self.canvas.create_image(0, 1, image=self.image, anchor="nw")
 
 
 if __name__ == "__main__":
